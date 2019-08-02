@@ -11,7 +11,6 @@ import sangria.marshalling.playJson._
 import models.{CharacterRepo, SchemaDefinition}
 import sangria.execution.deferred.DeferredResolver
 import sangria.renderer.SchemaRenderer
-import sangria.slowlog.SlowLog
 
 import scala.concurrent.Future
 import scala.util.{Failure, Success}
@@ -31,7 +30,7 @@ class Application @Inject() (system: ActorSystem, config: Configuration) extends
   }
 
   def graphql(query: String, variables: Option[String], operation: Option[String]) = Action.async { request ⇒
-    executeQuery(query, variables map parseVariables, operation, isTracingEnabled(request))
+    executeQuery(query, variables map parseVariables, operation)
   }
 
   def graphqlBody = Action.async(parse.json) { request ⇒
@@ -44,13 +43,13 @@ class Application @Inject() (system: ActorSystem, config: Configuration) extends
       case _ ⇒ None
     }
 
-    executeQuery(query, variables, operation, isTracingEnabled(request))
+    executeQuery(query, variables, operation)
   }
 
   private def parseVariables(variables: String) =
     if (variables.trim == "" || variables.trim == "null") Json.obj() else Json.parse(variables).as[JsObject]
 
-  private def executeQuery(query: String, variables: Option[JsObject], operation: Option[String], tracing: Boolean) =
+  private def executeQuery(query: String, variables: Option[JsObject], operation: Option[String]) =
     QueryParser.parse(query) match {
 
       // query parsed successfully, time to execute it!
@@ -63,7 +62,7 @@ class Application @Inject() (system: ActorSystem, config: Configuration) extends
             queryReducers = List(
               QueryReducer.rejectMaxDepth[CharacterRepo](15),
               QueryReducer.rejectComplexQueries[CharacterRepo](4000, (_, _) ⇒ TooComplexQueryError)),
-            middleware = if (tracing) SlowLog.apolloTracing :: Nil else Nil)
+            middleware = Nil)
           .map(Ok(_))
           .recover {
             case error: QueryAnalysisError ⇒ BadRequest(error.resolveError)
@@ -81,8 +80,6 @@ class Application @Inject() (system: ActorSystem, config: Configuration) extends
       case Failure(error) ⇒
         throw error
     }
-
-  def isTracingEnabled(request: Request[_]) = request.headers.get("X-Apollo-Tracing").isDefined
 
   def renderSchema = Action {
     Ok(SchemaRenderer.renderSchema(SchemaDefinition.StarWarsSchema))

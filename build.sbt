@@ -3,14 +3,15 @@ description := "An example of GraphQL server written with Play and Sangria."
 
 version := "1.0-SNAPSHOT"
 
-scalaVersion := "2.12.8"
+scalaVersion := "2.13.0"
+
+resolvers += Resolver.sonatypeRepo("snapshots")
 
 libraryDependencies ++= Seq(
   guice,
   filters,
-  "org.sangria-graphql" %% "sangria" % "1.4.2",
-  "org.sangria-graphql" %% "sangria-slowlog" % "0.1.8",
-  "org.sangria-graphql" %% "sangria-play-json" % "1.0.4",
+  "com.github.pjfanning.sangria" %% "sangria" % "1.4.3-SNAPSHOT",
+  "com.github.pjfanning.sangria" %% "sangria-play-json" % "1.0.6-SNAPSHOT",
   "org.scalatest" %% "scalatest" % "3.0.8" % "test")
 
 routesGenerator := InjectedRoutesGenerator
