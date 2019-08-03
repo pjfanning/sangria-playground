@@ -55,7 +55,7 @@ object SchemaDefinition {
     ObjectType(
       "Human",
       "A humanoid creature in the Star Wars universe.",
-      interfaces[CharacterRepo, Human](PossibleInterface[CharacterRepo, Character, Human](Character)),
+      interfaces(PossibleInterface[CharacterRepo, Character, Human](Character)),
       fields[CharacterRepo, Human](
         Field("id", StringType,
           Some("The id of the human."),
@@ -78,7 +78,7 @@ object SchemaDefinition {
   val Droid = ObjectType(
     "Droid",
     "A mechanical creature in the Star Wars universe.",
-    interfaces[CharacterRepo, Droid](PossibleInterface[CharacterRepo, Character, Droid](Character)),
+    interfaces(PossibleInterface[CharacterRepo, Character, Droid](Character)),
     fields[CharacterRepo, Droid](
       Field("id", StringType,
         Some("The id of the droid."),
