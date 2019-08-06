@@ -28,12 +28,20 @@ case class Droid(
 class CharacterRepo {
   import models.CharacterRepo._
 
+  def getHeroes(episode: Option[Episode.Value]) =
+    charactersAppearingIn(episode)
+
   def getHero(episode: Option[Episode.Value]) =
     episode flatMap (_ ⇒ getHuman("1000")) getOrElse droids.last
 
   def getHuman(id: String): Option[Human] = humans.find(c ⇒ c.id == id)
 
   def getDroid(id: String): Option[Droid] = droids.find(c ⇒ c.id == id)
+
+  private def charactersAppearingIn(episodeOption: Option[Episode.Value]) = episodeOption match {
+    case Some(episode) => (humans ++ droids).filter(_.appearsIn.contains(episode))
+    case _ => (humans ++ droids)
+  }
 }
 
 object CharacterRepo {
@@ -82,6 +90,12 @@ object CharacterRepo {
       name = Some("R2-D2"),
       friends = List("1000", "1002", "1003"),
       appearsIn = List(Episode.NEWHOPE, Episode.EMPIRE, Episode.JEDI),
-      primaryFunction = Some("Astromech"))
+      primaryFunction = Some("Astromech")),
+    Droid(
+      id = "2002",
+      name = Some("EV-9D9"),
+      friends = List(),
+      appearsIn = List(Episode.JEDI),
+      primaryFunction = Some("Protocol"))
   )
 }

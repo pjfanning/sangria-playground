@@ -106,6 +106,9 @@ object SchemaDefinition {
 
   val Query = ObjectType(
     "Query", fields[CharacterRepo, Unit](
+      Field("heroes", ListType(Character),
+        arguments = EpisodeArg :: Nil,
+        resolve = (ctx) ⇒ ctx.ctx.getHeroes(ctx.arg(EpisodeArg))),
       Field("hero", Character,
         arguments = EpisodeArg :: Nil,
         deprecationReason = Some("Use `human` or `droid` fields instead"),
