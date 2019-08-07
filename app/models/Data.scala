@@ -90,12 +90,6 @@ object CharacterRepo {
       name = Some("R2-D2"),
       friends = List("1000", "1002", "1003"),
       appearsIn = List(Episode.NEWHOPE, Episode.EMPIRE, Episode.JEDI),
-      primaryFunction = Some("Astromech")),
-    Droid(
-      id = "2002",
-      name = Some("EV-9D9"),
-      friends = List(),
-      appearsIn = List(Episode.JEDI),
-      primaryFunction = Some("Protocol"))
+      primaryFunction = Some("Astromech"))
   )
 }

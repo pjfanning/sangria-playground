@@ -10,7 +10,7 @@ resolvers += Resolver.sonatypeRepo("snapshots")
 libraryDependencies ++= Seq(
   guice,
   filters,
-  "com.github.pjfanning.sangria" %% "sangria" % "1.4.3",
+  "com.github.pjfanning.sangria" %% "sangria" % "1.4.4-SNAPSHOT",
   "com.github.pjfanning.sangria" %% "sangria-play-json" % "1.0.5",
   "org.scalatest" %% "scalatest" % "3.0.8" % "test")
 
