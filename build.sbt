@@ -10,8 +10,8 @@ resolvers += Resolver.sonatypeRepo("snapshots")
 libraryDependencies ++= Seq(
   guice,
   filters,
-  "com.github.pjfanning.sangria" %% "sangria" % "1.4.4-SNAPSHOT",
-  "com.github.pjfanning.sangria" %% "sangria-play-json" % "1.0.5",
+  "org.sangria-graphql" %% "sangria" % "2.0.0-M1",
+  "org.sangria-graphql" %% "sangria-play-json" % "2.0.0",
   "org.scalatest" %% "scalatest" % "3.0.8" % "test")
 
 routesGenerator := InjectedRoutesGenerator
